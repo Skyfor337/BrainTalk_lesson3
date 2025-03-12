@@ -2,6 +2,7 @@ package lesson2.practice1.command;
 
 import lesson2.practice1.mode.ModeHolder;
 import lesson2.practice1.out.TerminalOutput;
+import lesson2.practice1.repository.talker.TalkerRepository;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,10 +13,12 @@ public class GoCommand implements Command{
 
     private final TerminalOutput out;
     private final ModeHolder mode;
+    private final TalkerRepository repository;
 
-    public GoCommand(TerminalOutput output, ModeHolder modeHolder) {
+    public GoCommand(TerminalOutput output, ModeHolder modeHolder, TalkerRepository repository) {
         this.out = output;
         this.mode = modeHolder;
+        this.repository = repository;
     }
 
     @Override
@@ -28,9 +31,13 @@ public class GoCommand implements Command{
         Matcher matcher = PATTERN.matcher(inputLine);
         if (matcher.find()) {
             String user = matcher.group("user");
-            // todo validate user exists
-            mode.connectToUser(user);
-            out.print("Connected to " + user);
+            // todo validate user exists\
+            if (repository.isRegistered(user)) {
+                out.print("Connected to " + user);
+                mode.connectToUser(user);
+            } else {
+                out.print("User " + user + " is not registered!");
+            }
         }
     }
 }

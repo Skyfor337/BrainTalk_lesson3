@@ -9,20 +9,13 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.List;
 
-import lesson2.practice1.CliApplication;
 import lesson2.practice1.repository.talker.TalkerRepository;
 
 public class MultiConnectSocketServer {
 
     ServerSocket serverSocket;
     TalkerRepository talkerRepository;
-
-
-    public static void main(String[] args) throws IOException {
-        new MultiConnectSocketServer().start();
-    }
 
     public void start() throws IOException {
         serverSocket = new ServerSocket(9000);
@@ -34,9 +27,7 @@ public class MultiConnectSocketServer {
         }
     }
 
-    private
-
-    static class ConnectionHandler extends Thread {
+    private static class ConnectionHandler extends Thread {
 
         private final Socket clientSocket;
         BufferedReader in;
@@ -54,15 +45,16 @@ public class MultiConnectSocketServer {
 
                 //TODO cliApplication не должен тут стартовать, сервер работает отдельно от пользователя,
                 // надо нормально прописать его поведения
-
-                CliApplication cliApplication = new CliApplication();
-                cliApplication.start();
                 // Каналы взаимодействия
+
                 // от клиента
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 // к клиенту
-
                 out = new PrintWriter(clientSocket.getOutputStream(), true);
+
+                CliApplication cliApplication = new CliApplication();
+                cliApplication.start(out);
+
                 String inputLine;
                 out.println("Hello! What's your login?");
                 int g = 0;
@@ -76,9 +68,9 @@ public class MultiConnectSocketServer {
                         //TODO тут добавлять пользователя
 
                     }
+
                     //TODO тут делать проверку на команду
 //                    List<Command> commands = cliApplication.commands;
-
                     for (Command command : cliApplication.commands) {
                         if (command.isApplicable(inputLine)) {
                             command.execute(inputLine);
@@ -86,9 +78,7 @@ public class MultiConnectSocketServer {
                     }
 
                     System.out.println("<< received message from client: " + inputLine);
-                    String response = "echo: " + inputLine;
-                    System.out.println(">> sending response " + response);
-                    out.println(response);
+                    System.out.println(">> sending response echo: " + inputLine);
                 }
                 in.close();
                 out.close();

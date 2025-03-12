@@ -20,10 +20,10 @@ public class DefaultMessageCommand implements Command{
 
     @Override
     public void execute(String inputLine) {
-        if (mode.isConnected()) {
-            out.print("echo from " + mode.getConnectedUser() +": " + inputLine);
-        } else {
+        if (!mode.isConnected()) {
             out.print("echo: " + inputLine);
+        } else {
+            out.print(": ");
         }
     }
 }

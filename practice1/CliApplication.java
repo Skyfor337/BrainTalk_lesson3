@@ -6,6 +6,7 @@ import lesson2.practice1.out.TerminalOutput;
 import lesson2.practice1.repository.talker.TalkerRepository;
 
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,25 +16,15 @@ public class CliApplication {
     public List<Command> commands;
     private TerminalOutput out;
 
-    public void start() {
-        init();
+    public void start(PrintWriter out_stream) {
+        init(out_stream);
         out.print("Cli app started");
-
-        /*Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNext()) {
-            String inputLine = scanner.nextLine();
-            for (Command command : commands) {
-                if (command.isApplicable(inputLine)) {
-                    command.execute(inputLine);
-                }
-            }
-        }*/
     }
 
-    private void init() {
+    private void init(PrintWriter out_stream) {
         ModeHolder modeHolder = new ModeHolder();
         TalkerRepository talkerRepository = new TalkerRepository();
-        this.out = new TerminalOutput(modeHolder);
+        this.out = new TerminalOutput(modeHolder, out_stream);
         this.commands = createCommands(out, modeHolder, talkerRepository);
     }
 
@@ -47,7 +38,7 @@ public class CliApplication {
         commands.add(new AddCommand(output, talkerRepository));
         commands.add(new ListCommand(output, talkerRepository));
         commands.add(new SendCommand(output));
-        commands.add(new GoCommand(output, modeHolder));
+        commands.add(new GoCommand(output, modeHolder, talkerRepository));
         commands.add(new QCommand(output, modeHolder));
         commands.add(new HelpCommand(output));
         commands.add(new ExitCommand(output));

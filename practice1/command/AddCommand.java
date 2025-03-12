@@ -35,7 +35,7 @@ public class AddCommand implements Command{
             }
 
             repository.addTalker(talkerToAdd);
-            out.print(talkerToAdd + " added");
+            out.print(talkerToAdd + " added\n");
         };
     }
 }
