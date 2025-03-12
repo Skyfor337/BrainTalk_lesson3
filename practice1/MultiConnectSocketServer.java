@@ -53,7 +53,7 @@ public class MultiConnectSocketServer {
                 out = new PrintWriter(clientSocket.getOutputStream(), true);
 
                 CliApplication cliApplication = new CliApplication();
-                cliApplication.start(out);
+                cliApplication.start(out, in);
 
                 String inputLine;
                 out.println("Hello! What's your login?");

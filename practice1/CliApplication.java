@@ -6,6 +6,7 @@ import lesson2.practice1.out.TerminalOutput;
 import lesson2.practice1.repository.talker.TalkerRepository;
 
 
+import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,16 +16,18 @@ public class CliApplication {
 
     public List<Command> commands;
     private TerminalOutput out;
+    private BufferedReader in;
 
-    public void start(PrintWriter out_stream) {
-        init(out_stream);
+    public void start(PrintWriter out_stream, BufferedReader in_stream) {
+        init(out_stream, in_stream);
         out.print("Cli app started");
     }
 
-    private void init(PrintWriter out_stream) {
+    private void init(PrintWriter out_stream, BufferedReader in_stream) {
         ModeHolder modeHolder = new ModeHolder();
         TalkerRepository talkerRepository = new TalkerRepository();
-        this.out = new TerminalOutput(modeHolder, out_stream);
+        this.out = new TerminalOutput(modeHolder, out_stream, in_stream);
+        this.in = in_stream;
         this.commands = createCommands(out, modeHolder, talkerRepository);
     }
 
