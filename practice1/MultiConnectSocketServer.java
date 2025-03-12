@@ -1,5 +1,6 @@
 package lesson2.practice1;
 
+import lesson2.practice1.command.AddCommand;
 import lesson2.practice1.command.Command;
 
 import java.io.BufferedReader;
@@ -50,12 +51,17 @@ public class MultiConnectSocketServer {
         public void run() {
             try {
                 System.out.println("-- Client connected");
+
+                //TODO cliApplication не должен тут стартовать, сервер работает отдельно от пользователя,
+                // надо нормально прописать его поведения
+
                 CliApplication cliApplication = new CliApplication();
                 cliApplication.start();
                 // Каналы взаимодействия
                 // от клиента
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 // к клиенту
+
                 out = new PrintWriter(clientSocket.getOutputStream(), true);
                 String inputLine;
                 out.println("Hello! What's your login?");
@@ -66,12 +72,12 @@ public class MultiConnectSocketServer {
                 while ((inputLine = in.readLine()) != null) {
                     if (g==0){
                         g=1;
+
                         //TODO тут добавлять пользователя
 
                     }
                     //TODO тут делать проверку на команду
 //                    List<Command> commands = cliApplication.commands;
-
 
                     for (Command command : cliApplication.commands) {
                         if (command.isApplicable(inputLine)) {
