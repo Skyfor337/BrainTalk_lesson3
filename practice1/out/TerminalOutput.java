@@ -25,11 +25,11 @@ public class TerminalOutput {
             // потому что курсор терминала как-то блокирует печать out.print(). То есть прога хочет написать,
             // но всё залоченно, поэтому оно накапливается и в итоге за раз выплёвывается
             String user = modeHolder.getConnectedUser();
-            try {
-                in.reset();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+//            try {
+//                in.reset();
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
             out.println(String.format("%s%s%s", DEFAULT_PROMPT, user, message));
         } else {
             out.println(String.format("%s %s", DEFAULT_PROMPT, message));

@@ -31,7 +31,7 @@ public class GoCommand implements Command{
         Matcher matcher = PATTERN.matcher(inputLine);
         if (matcher.find()) {
             String user = matcher.group("user");
-            // todo validate user exists\
+            // todo validate user exists
             if (repository.isRegistered(user)) {
                 out.print("Connected to " + user);
                 mode.connectToUser(user);

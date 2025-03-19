@@ -69,7 +69,7 @@ public class MultiConnectSocketServer {
 
                     }
 
-                    //TODO тут делать проверку на команду
+
 //                    List<Command> commands = cliApplication.commands;
                     for (Command command : cliApplication.commands) {
                         if (command.isApplicable(inputLine)) {
